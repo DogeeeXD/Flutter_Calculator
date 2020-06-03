@@ -1,0 +1,157 @@
+class Process {
+  static String str = '0';
+
+  static void add(String val) {
+    if (str.compareTo('0') == 0) {
+      str = val;
+    } else {
+      if ((str.endsWith('+') ||
+              str.endsWith('-') ||
+              str.endsWith('*') ||
+              str.endsWith('/') ||
+              str.endsWith('.')) &&
+          (val == '+' ||
+              val == '-' ||
+              val == '*' ||
+              val == '/' ||
+              val == '.')) {
+        return;
+      } else {
+        str += val;
+      }
+    }
+  }
+
+  static void clear() {
+    str = '0';
+  }
+
+  static void delete() {
+    if (str.compareTo('0') != 0) {
+      String temp = str.substring(0, str.length - 1);
+      str = temp == '' ? str = '0' : str = temp;
+    }
+  }
+
+  static String compute() {
+    //String to add numbers until we hit into an operator (+,-,*,/)
+    String accumulatingString;
+    //List used to final calculation
+    List<String> lstToCompute = [];
+    //Loop through the string
+    for (int i = 0; i < str.length; i++) {
+      //if the character is not an operator, then add the character to the end of $accumulatedString
+      if (str[i] != "+" && str[i] != "-" && str[i] != "*" && str[i] != "/") {
+        // Check if the $accumulatedString is null AND not "-"
+        // True: add the str[i] to $accumulatedString
+        // False:
+        print(accumulatingString);
+        print(str[i]);
+        accumulatingString =
+            (accumulatingString == null && accumulatingString != "-"
+                ? "${str[i]}"
+                : "$accumulatingString${str[i]}");
+      } else {
+        //If it is an operator, then add $accumulatedString to the $lstToCompute, and 'reset' $accumulatedString
+        if (accumulatingString != null) {
+          lstToCompute.add(accumulatingString);
+          accumulatingString = null;
+        }
+        //After adding the number to the list, add the operator behind it.
+        lstToCompute.add(str[i]);
+      }
+    }
+    //Add you operator to the $lstToCompute
+    lstToCompute.add(accumulatingString);
+
+    //Check if the first character in $lstToCompute is a '-' operator,
+    //if TRUE, combine with the second item in list
+    if (lstToCompute[0] == "-") {
+      lstToCompute[0] = "-${lstToCompute[1]}";
+      //replace second item with NULL
+      lstToCompute[1] = null;
+      //remove all NULL value from $lstToCompute
+      lstToCompute.removeWhere((e) => e == null);
+    }
+
+    //Find if there are any '*' or '/' inside $lstToCompute
+    while ((lstToCompute.indexWhere((e) => e == '*') > 0) ||
+        (lstToCompute.indexWhere((e) => e == '/') > 0)) {
+      if ((lstToCompute.indexWhere((e) => e == '*') > 0)) {
+        //get the position of the FIRST '*' operator
+        //there could be many
+        int index = (lstToCompute.indexWhere((e) => e == '*'));
+        //do multiplication of items on the left and right side
+        double multiplication = double.parse(lstToCompute[index - 1]) *
+            double.parse(lstToCompute[index + 1]);
+        //replace left and right with NULL
+        lstToCompute[index - 1] = null;
+        lstToCompute[index + 1] = null;
+        //replace '*' operator with your new result, 'multiplication'
+        lstToCompute[index] = multiplication.toString();
+        //remove all NULL values
+        lstToCompute.removeWhere((e) => e == null);
+      }
+      if ((lstToCompute.indexWhere((e) => e == '/') > 0)) {
+        //get the position of the FIRST '*' operator
+        //there could be many
+        int index = (lstToCompute.indexWhere((e) => e == '/'));
+        //do division of items on the left and right side
+        double division = double.parse(lstToCompute[index - 1]) /
+            double.parse(lstToCompute[index + 1]);
+        //replace left and right with NULL
+        lstToCompute[index - 1] = null;
+        lstToCompute[index + 1] = null;
+        //replace '*' operator with your new result, 'division'
+        lstToCompute[index] = division.toString();
+        //remove all NULL values
+        lstToCompute.removeWhere((e) => e == null);
+      }
+    }
+    //At this point, $lstToCompute should have no more '*' and '/' operations
+    //try this
+    // print("After multiplication and division");
+    // print(lstToCompute);
+
+    //do the same thing with '+' and '-'
+    while ((lstToCompute.indexWhere((e) => e == '+') > 0) ||
+        (lstToCompute.indexWhere((e) => e == '-') > 0)) {
+      if ((lstToCompute.indexWhere((e) => e == '+') > 0)) {
+        int index = (lstToCompute.indexWhere((e) => e == '+'));
+        double addition = double.parse(lstToCompute[index - 1]) +
+            double.parse(lstToCompute[index + 1]);
+        lstToCompute[index - 1] = null;
+        lstToCompute[index + 1] = null;
+        lstToCompute[index] = addition.toString();
+
+        lstToCompute.removeWhere((e) => e == null);
+      }
+      if ((lstToCompute.indexWhere((e) => e == '-') > 0)) {
+        int index = (lstToCompute.indexWhere((e) => e == '-'));
+        double subtraction = double.parse(lstToCompute[index - 1]) -
+            double.parse(lstToCompute[index + 1]);
+        lstToCompute[index - 1] = null;
+        lstToCompute[index + 1] = null;
+        lstToCompute[index] = subtraction.toString();
+        lstToCompute.removeWhere((e) => e == null);
+      }
+    }
+
+    //At this point, the whole list should only have 1 item inside, the final result
+    //try this
+    // print("After addition and subtractions");
+    // print(lstToCompute);
+
+    //Take your calculation and change to string
+    String computedString = lstToCompute[0].toString();
+
+    //Because we do calculation in double, it might end with '.0'
+    if (computedString.endsWith(".0")) {
+      //return a substring with the final 2 characters removed
+      return computedString.substring(0, computedString.length - 2);
+    } else {
+      //return the entire string when the ending is something else like '.124'
+      return computedString;
+    }
+  }
+}
