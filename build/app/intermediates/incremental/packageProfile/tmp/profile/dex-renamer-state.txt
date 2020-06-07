@@ -1,0 +1,4 @@
+#Sat Jun 06 16:35:39 CST 2020
+base.0=C\:\\Users\\Doge\\Desktop\\homework\\Flutter_Calculator\\build\\app\\intermediates\\dex\\profile\\mergeDexProfile\\out\\classes.dex
+renamed.0=classes.dex
+path.0=classes.dex

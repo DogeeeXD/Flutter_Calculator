@@ -1,24 +1,31 @@
 class Process {
   static String str = '0';
+  static int strCounter = 0;
 
   static void add(String val) {
     if (str.compareTo('0') == 0) {
       str = val;
+    } else if ((str.endsWith('+') && val == '+') ||
+        (str.endsWith('-') && val == '-') ||
+        (str.endsWith('*') && val == '*') ||
+        (str.endsWith('/') && val == '/') ||
+        (str.endsWith('+') && val == '.') ||
+        (str.endsWith('-') && val == '.') ||
+        (str.endsWith('*') && val == '.') ||
+        (str.endsWith('/') && val == '.') ||
+        (str.endsWith('.') && val == '+') ||
+        (str.endsWith('.') && val == '-') ||
+        (str.endsWith('.') && val == '*') ||
+        (str.endsWith('.') && val == '/')) {
+      return;
+    } else if (str.endsWith('+') && (val == '-' || val == '*' || val == '/') ||
+        str.endsWith('-') && (val == '+' || val == '*' || val == '/') ||
+        str.endsWith('*') && (val == '+' || val == '-' || val == '/') ||
+        str.endsWith('/') && (val == '+' || val == '-' || val == '*')) {
+      str = str.substring(0, str.length - 1);
+      str += val;
     } else {
-      if ((str.endsWith('+') ||
-              str.endsWith('-') ||
-              str.endsWith('*') ||
-              str.endsWith('/') ||
-              str.endsWith('.')) &&
-          (val == '+' ||
-              val == '-' ||
-              val == '*' ||
-              val == '/' ||
-              val == '.')) {
-        return;
-      } else {
-        str += val;
-      }
+      str += val;
     }
   }
 
@@ -149,6 +156,8 @@ class Process {
     if (computedString.endsWith(".0")) {
       //return a substring with the final 2 characters removed
       return computedString.substring(0, computedString.length - 2);
+    } else if (computedString == 'Infinity') {
+      return 'Undefined';
     } else {
       //return the entire string when the ending is something else like '.124'
       return computedString;
