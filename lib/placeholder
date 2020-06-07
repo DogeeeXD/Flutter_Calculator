@@ -1,6 +1,0 @@
-else if ((str.endsWith('+') ||
-            str.endsWith('-') ||
-            str.endsWith('*') ||
-            str.endsWith('/') ||
-            str.endsWith('.')) &&
-        (val == '+' || val == '-' || val == '*' || val == '/' || val == '.'))

@@ -1,9 +1,14 @@
 class Process {
   static String str = '0';
-  static int strCounter = 0;
+  static bool useDot = true;
+  static bool appendStr = true;
+  static bool appendOper = true;
 
   static void add(String val) {
     if (str.compareTo('0') == 0) {
+      if (val == '+' || val == '*' || val == '/') {
+        return;
+      }
       str = val;
     } else if ((str.endsWith('+') && val == '+') ||
         (str.endsWith('-') && val == '-') ||
@@ -19,11 +24,37 @@ class Process {
         (str.endsWith('.') && val == '/')) {
       return;
     } else if (str.endsWith('+') && (val == '-' || val == '*' || val == '/') ||
-        str.endsWith('-') && (val == '+' || val == '*' || val == '/') ||
+        str.endsWith('-') &&
+            str != '-' &&
+            (val == '+' || val == '*' || val == '/') ||
         str.endsWith('*') && (val == '+' || val == '-' || val == '/') ||
         str.endsWith('/') && (val == '+' || val == '-' || val == '*')) {
       str = str.substring(0, str.length - 1);
       str += val;
+    } else if (str == '-') {
+      if (val == '+' || val == '-' || val == '*' || val == '/') {
+        return;
+      } else {
+        str += val;
+      }
+    } else if (useDot == true && val == '.') {
+      str += val;
+      useDot = false;
+    } else if (useDot == false &&
+        (val == '+' || val == '-' || val == '*' || val == '/')) {
+      str += val;
+      appendStr = true;
+      useDot = true;
+    } else if (useDot == false && val == '.') {
+      return;
+    } else if (appendStr == false && appendOper == true) {
+      if (val == '+' || val == '-' || val == '*' || val == '/') {
+        str += val;
+        appendStr = true;
+      }
+      return;
+    } else if (appendStr == false) {
+      return;
     } else {
       str += val;
     }
@@ -31,11 +62,17 @@ class Process {
 
   static void clear() {
     str = '0';
+    useDot = true;
+    appendStr = true;
+    appendOper = true;
   }
 
   static void delete() {
     if (str.compareTo('0') != 0) {
       String temp = str.substring(0, str.length - 1);
+      if (str.endsWith('.')) {
+        useDot = true;
+      }
       str = temp == '' ? str = '0' : str = temp;
     }
   }
@@ -52,8 +89,8 @@ class Process {
         // Check if the $accumulatedString is null AND not "-"
         // True: add the str[i] to $accumulatedString
         // False:
-        print(accumulatingString);
-        print(str[i]);
+        // print(accumulatingString);
+        // print(str[i]);
         accumulatingString =
             (accumulatingString == null && accumulatingString != "-"
                 ? "${str[i]}"
@@ -152,8 +189,18 @@ class Process {
     //Take your calculation and change to string
     String computedString = lstToCompute[0].toString();
 
+    useDot = false;
+    appendStr = false;
+    appendOper = true;
+
     //Because we do calculation in double, it might end with '.0'
     if (computedString.endsWith(".0")) {
+      String answer = computedString.substring(0, computedString.length - 2);
+      if (answer == '0') {
+        useDot = true;
+        appendStr = true;
+        appendOper = true;
+      }
       //return a substring with the final 2 characters removed
       return computedString.substring(0, computedString.length - 2);
     } else if (computedString == 'Infinity') {
