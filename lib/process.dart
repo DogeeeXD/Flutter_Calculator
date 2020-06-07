@@ -202,7 +202,7 @@ class Process {
         appendOper = true;
       }
       //return a substring with the final 2 characters removed
-      return computedString.substring(0, computedString.length - 2);
+      return answer;
     } else if (computedString == 'Infinity') {
       return 'Undefined';
     } else {
