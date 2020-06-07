@@ -194,18 +194,28 @@ class Process {
     appendOper = true;
 
     //Because we do calculation in double, it might end with '.0'
+    //This behavior is occured in mobile app
+    print(computedString);
     if (computedString.endsWith(".0")) {
+      //return a substring with the final 2 characters removed
       String answer = computedString.substring(0, computedString.length - 2);
+
       if (answer == '0') {
         useDot = true;
         appendStr = true;
         appendOper = true;
       }
-      //return a substring with the final 2 characters removed
+
       return answer;
     } else if (computedString == 'Infinity') {
       return 'Undefined';
     } else {
+      print(computedString);
+      if (computedString == '0') {
+        useDot = true;
+        appendStr = true;
+        appendOper = true;
+      }
       //return the entire string when the ending is something else like '.124'
       return computedString;
     }
