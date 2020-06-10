@@ -8,12 +8,16 @@ class Process {
     if (str.compareTo('0') == 0) {
       if (val == '+' || val == '*' || val == '/') {
         return;
+      } else if (val == '.') {
+        str = val;
+        useDot = false;
       }
       str = val;
     } else if ((str.endsWith('+') && val == '+') ||
         (str.endsWith('-') && val == '-') ||
         (str.endsWith('*') && val == '*') ||
         (str.endsWith('/') && val == '/') ||
+        (str.endsWith('.') && val == '.') ||
         (str.endsWith('+') && val == '.') ||
         (str.endsWith('-') && val == '.') ||
         (str.endsWith('*') && val == '.') ||
