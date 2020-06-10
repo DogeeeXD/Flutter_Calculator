@@ -219,6 +219,8 @@ class Process {
         useDot = true;
         appendStr = true;
         appendOper = true;
+      } else if (computedString == '.') {
+        appendStr = true;
       }
       //return the entire string when the ending is something else like '.124'
       return computedString;
