@@ -31,9 +31,12 @@ class Process {
         str.endsWith('-') &&
             str != '-' &&
             (val == '+' || val == '*' || val == '/') ||
-        str.endsWith('*') && (val == '+' || val == '-' || val == '/') ||
-        str.endsWith('/') && (val == '+' || val == '-' || val == '*')) {
+        str.endsWith('*') && (val == '+' || val == '/') ||
+        str.endsWith('/') && (val == '+' || val == '*')) {
       str = str.substring(0, str.length - 1);
+      str += val;
+    } else if ((str.endsWith('*') && val == '-') ||
+        (str.endsWith('/') && (val == '-'))) {
       str += val;
     } else if (str == '-') {
       if (val == '+' || val == '-' || val == '*' || val == '/') {
@@ -129,31 +132,54 @@ class Process {
         //get the position of the FIRST '*' operator
         //there could be many
         int index = (lstToCompute.indexWhere((e) => e == '*'));
-        //do multiplication of items on the left and right side
-        double multiplication = double.parse(lstToCompute[index - 1]) *
-            double.parse(lstToCompute[index + 1]);
-        //replace left and right with NULL
-        lstToCompute[index - 1] = null;
-        lstToCompute[index + 1] = null;
-        //replace '*' operator with your new result, 'multiplication'
-        lstToCompute[index] = multiplication.toString();
-        //remove all NULL values
-        lstToCompute.removeWhere((e) => e == null);
+
+        //enable multiply negative value
+        if (lstToCompute[index + 1] == '-') {
+          double multiplication = double.parse(lstToCompute[index - 1]) *
+              -double.parse(lstToCompute[index + 2]);
+          lstToCompute[index - 1] = null;
+          lstToCompute[index + 1] = null;
+          lstToCompute[index + 2] = null;
+          lstToCompute[index] = multiplication.toString();
+          lstToCompute.removeWhere((e) => e == null);
+        } else {
+          //do multiplication of items on the left and right side
+          double multiplication = double.parse(lstToCompute[index - 1]) *
+              double.parse(lstToCompute[index + 1]);
+          //replace left and right with NULL
+          lstToCompute[index - 1] = null;
+          lstToCompute[index + 1] = null;
+          //replace '*' operator with your new result, 'multiplication'
+          lstToCompute[index] = multiplication.toString();
+          //remove all NULL values
+          lstToCompute.removeWhere((e) => e == null);
+        }
       }
       if ((lstToCompute.indexWhere((e) => e == '/') > 0)) {
         //get the position of the FIRST '*' operator
         //there could be many
         int index = (lstToCompute.indexWhere((e) => e == '/'));
-        //do division of items on the left and right side
-        double division = double.parse(lstToCompute[index - 1]) /
-            double.parse(lstToCompute[index + 1]);
-        //replace left and right with NULL
-        lstToCompute[index - 1] = null;
-        lstToCompute[index + 1] = null;
-        //replace '*' operator with your new result, 'division'
-        lstToCompute[index] = division.toString();
-        //remove all NULL values
-        lstToCompute.removeWhere((e) => e == null);
+        //enable dividing negative value
+        if (lstToCompute[index + 1] == '-') {
+          double division = double.parse(lstToCompute[index - 1]) /
+              -double.parse(lstToCompute[index + 2]);
+          lstToCompute[index - 1] = null;
+          lstToCompute[index + 1] = null;
+          lstToCompute[index + 2] = null;
+          lstToCompute[index] = division.toString();
+          lstToCompute.removeWhere((e) => e == null);
+        } else {
+          //do division of items on the left and right side
+          double division = double.parse(lstToCompute[index - 1]) /
+              double.parse(lstToCompute[index + 1]);
+          //replace left and right with NULL
+          lstToCompute[index - 1] = null;
+          lstToCompute[index + 1] = null;
+          //replace '*' operator with your new result, 'division'
+          lstToCompute[index] = division.toString();
+          //remove all NULL values
+          lstToCompute.removeWhere((e) => e == null);
+        }
       }
     }
     //At this point, $lstToCompute should have no more '*' and '/' operations
