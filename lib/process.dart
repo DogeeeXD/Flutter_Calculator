@@ -33,8 +33,14 @@ class Process {
             (val == '+' || val == '*' || val == '/') ||
         str.endsWith('*') && (val == '+' || val == '/') ||
         str.endsWith('/') && (val == '+' || val == '*')) {
-      str = str.substring(0, str.length - 1);
-      str += val;
+      if ((str.substring(str.length - 2).startsWith('*') ||
+              str.substring(str.length - 2).startsWith('/')) &&
+          str.endsWith('-')) {
+        return;
+      } else {
+        str = str.substring(0, str.length - 1);
+        str += val;
+      }
     } else if ((str.endsWith('*') && val == '-') ||
         (str.endsWith('/') && (val == '-'))) {
       str += val;
@@ -239,6 +245,9 @@ class Process {
       return answer;
     } else if (computedString == 'Infinity') {
       return 'Undefined';
+    } else if (computedString.endsWith('.')) {
+      computedString = computedString.substring(0, computedString.length - 1);
+      return computedString;
     } else {
       print(computedString);
       if (computedString == '0') {
