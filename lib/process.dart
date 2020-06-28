@@ -1,3 +1,5 @@
+import 'package:calculator/decimal.dart';
+
 class Process {
   static String str = '0';
   static bool useDot = true;
@@ -141,8 +143,8 @@ class Process {
 
         //enable multiply negative value
         if (lstToCompute[index + 1] == '-') {
-          double multiplication = double.parse(lstToCompute[index - 1]) *
-              -double.parse(lstToCompute[index + 2]);
+          Decimal multiplication = Decimal.parse(lstToCompute[index - 1]) *
+              -Decimal.parse(lstToCompute[index + 2]);
           lstToCompute[index - 1] = null;
           lstToCompute[index + 1] = null;
           lstToCompute[index + 2] = null;
@@ -150,8 +152,8 @@ class Process {
           lstToCompute.removeWhere((e) => e == null);
         } else {
           //do multiplication of items on the left and right side
-          double multiplication = double.parse(lstToCompute[index - 1]) *
-              double.parse(lstToCompute[index + 1]);
+          Decimal multiplication = Decimal.parse(lstToCompute[index - 1]) *
+              Decimal.parse(lstToCompute[index + 1]);
           //replace left and right with NULL
           lstToCompute[index - 1] = null;
           lstToCompute[index + 1] = null;
@@ -167,8 +169,8 @@ class Process {
         int index = (lstToCompute.indexWhere((e) => e == '/'));
         //enable dividing negative value
         if (lstToCompute[index + 1] == '-') {
-          double division = double.parse(lstToCompute[index - 1]) /
-              -double.parse(lstToCompute[index + 2]);
+          Decimal division = Decimal.parse(lstToCompute[index - 1]) /
+              -Decimal.parse(lstToCompute[index + 2]);
           lstToCompute[index - 1] = null;
           lstToCompute[index + 1] = null;
           lstToCompute[index + 2] = null;
@@ -176,8 +178,8 @@ class Process {
           lstToCompute.removeWhere((e) => e == null);
         } else {
           //do division of items on the left and right side
-          double division = double.parse(lstToCompute[index - 1]) /
-              double.parse(lstToCompute[index + 1]);
+          Decimal division = Decimal.parse(lstToCompute[index - 1]) /
+              Decimal.parse(lstToCompute[index + 1]);
           //replace left and right with NULL
           lstToCompute[index - 1] = null;
           lstToCompute[index + 1] = null;
@@ -198,8 +200,8 @@ class Process {
         (lstToCompute.indexWhere((e) => e == '-') > 0)) {
       if ((lstToCompute.indexWhere((e) => e == '+') > 0)) {
         int index = (lstToCompute.indexWhere((e) => e == '+'));
-        double addition = double.parse(lstToCompute[index - 1]) +
-            double.parse(lstToCompute[index + 1]);
+        Decimal addition = Decimal.parse(lstToCompute[index - 1]) +
+            Decimal.parse(lstToCompute[index + 1]);
         lstToCompute[index - 1] = null;
         lstToCompute[index + 1] = null;
         lstToCompute[index] = addition.toString();
@@ -208,8 +210,8 @@ class Process {
       }
       if ((lstToCompute.indexWhere((e) => e == '-') > 0)) {
         int index = (lstToCompute.indexWhere((e) => e == '-'));
-        double subtraction = double.parse(lstToCompute[index - 1]) -
-            double.parse(lstToCompute[index + 1]);
+        Decimal subtraction = Decimal.parse(lstToCompute[index - 1]) -
+            Decimal.parse(lstToCompute[index + 1]);
         lstToCompute[index - 1] = null;
         lstToCompute[index + 1] = null;
         lstToCompute[index] = subtraction.toString();
@@ -229,7 +231,7 @@ class Process {
     appendStr = false;
     appendOper = true;
 
-    //Because we do calculation in double, it might end with '.0'
+    //Because we do calculation in Decimal, it might end with '.0'
     //This behavior is occured in mobile app
     print(computedString);
     if (computedString.endsWith(".0")) {
