@@ -233,7 +233,7 @@ class Process {
 
     //Because we do calculation in Decimal, it might end with '.0'
     //This behavior is occured in mobile app
-    print(computedString);
+
     if (computedString.endsWith(".0")) {
       //return a substring with the final 2 characters removed
       String answer = computedString.substring(0, computedString.length - 2);
@@ -251,7 +251,7 @@ class Process {
       computedString = computedString.substring(0, computedString.length - 1);
       return computedString;
     } else {
-      print(computedString);
+      //print(computedString);
       if (computedString == '0') {
         useDot = true;
         appendStr = true;

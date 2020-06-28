@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Calculator',
       theme: ThemeData(
-        primarySwatch: Colors.amber,
+        primarySwatch: Colors.blueGrey,
         // This makes the visual density adapt to the platform that you run
         // the app on. For desktop platforms, the controls will be smaller and
         // closer together (more dense) than on mobile platforms.
@@ -24,6 +24,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// alan
-// new branch 2
