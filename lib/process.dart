@@ -11,9 +11,15 @@ class Process {
       if (val == '+' || val == '*' || val == '/') {
         return;
       } else if (val == '.') {
-        str = val;
+        str += val;
+        //str = val;
         useDot = false;
+      } else {
+        str = val;
       }
+      //str = val;
+    } else if (str == 'Undefined') {
+      clear();
       str = val;
     } else if ((str.endsWith('+') && val == '+') ||
         (str.endsWith('-') && val == '-') ||
@@ -164,11 +170,15 @@ class Process {
         }
       }
       if ((lstToCompute.indexWhere((e) => e == '/') > 0)) {
-        //get the position of the FIRST '*' operator
+        //get the position of the FIRST '/' operator
         //there could be many
         int index = (lstToCompute.indexWhere((e) => e == '/'));
         //enable dividing negative value
         if (lstToCompute[index + 1] == '-') {
+          if ((lstToCompute[index + 2]) == '0') {
+            print('Undefined');
+            return ('Undefined');
+          }
           Decimal division = Decimal.parse(lstToCompute[index - 1]) /
               -Decimal.parse(lstToCompute[index + 2]);
           lstToCompute[index - 1] = null;
@@ -177,6 +187,10 @@ class Process {
           lstToCompute[index] = division.toString();
           lstToCompute.removeWhere((e) => e == null);
         } else {
+          if ((lstToCompute[index + 1]) == '0') {
+            print('Undefined');
+            return ('Undefined');
+          }
           //do division of items on the left and right side
           Decimal division = Decimal.parse(lstToCompute[index - 1]) /
               Decimal.parse(lstToCompute[index + 1]);
