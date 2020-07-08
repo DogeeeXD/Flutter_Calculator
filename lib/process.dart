@@ -20,7 +20,7 @@ class Process {
       //str = val;
     } else if (str == 'Undefined') {
       clear();
-      str = val;
+      //str = val;
     } else if ((str.endsWith('+') && val == '+') ||
         (str.endsWith('-') && val == '-') ||
         (str.endsWith('*') && val == '*') ||
