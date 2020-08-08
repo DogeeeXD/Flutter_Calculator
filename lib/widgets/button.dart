@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Button extends StatelessWidget {
   final String _value;
@@ -19,14 +20,20 @@ class Button extends StatelessWidget {
                   _value,
                   style: TextStyle(fontSize: 20),
                 ),
-                onPressed: _btnPressed,
+                onPressed: () {
+                  _btnPressed();
+                  HapticFeedback.lightImpact();
+                },
               )
             : FlatButton(
                 child: Text(
                   _value,
                   style: TextStyle(fontSize: 24),
                 ),
-                onPressed: _btnPressed,
+                onPressed: () {
+                  _btnPressed();
+                  HapticFeedback.lightImpact();
+                },
               ),
       ),
     );
